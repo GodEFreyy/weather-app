@@ -29,3 +29,11 @@ Przykład rozmiaru: 19.7 kB
 
 docker image inspect --format='{{.Size}}' godefrey/weather:tiny3
 Przykład rozmiaru: 6126 B
+
+4. Zrzuty ekranu
+Logi startowe (po uruchomieniu kontenera)
+![alt text](image.png)
+Widok formularza w przeglądarce z wybraną pogodą
+![alt text](image-1.png)
+Wynik docker images pokazujący rozmiar obrazu
+![alt text](image-2.png)
