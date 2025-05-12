@@ -1,10 +1,10 @@
+#include <stdio.h>
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <time.h>
 #include <string.h>
+#include "page_html.h"
 
-extern const unsigned char page_html[];
-extern const unsigned int page_html_len;
 static const char hdr[] =
   "HTTP/1.0 200 OK\r\n"
   "Content-Type: text/html\r\n\r\n";
@@ -24,10 +24,12 @@ int main() {
     listen(s, 5);
 
     for (;;) {
-      int c = accept(s, 0, 0);
-      char req[512]; read(c, req, sizeof(req));
-      write(c, hdr, strlen(hdr));
-      write(c, page_html, page_html_len);
-      close(c);
+        int c = accept(s, NULL, NULL);
+        char req[512];
+        read(c, req, sizeof(req));
+        write(c, hdr, strlen(hdr));
+        write(c, page_html, page_html_len);
+        close(c);
     }
+    return 0;
 }
