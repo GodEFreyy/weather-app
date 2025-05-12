@@ -1,15 +1,21 @@
-# syntax=docker/dockerfile:1
+# syntax=docker/dockerfile:1.7
 FROM alpine:3.20 AS build
 LABEL org.opencontainers.image.authors="Nazar Malizderskyi"
 RUN apk add --no-cache gcc upx binutils
+
 WORKDIR /src
-COPY server.S page.html .
-RUN gcc -nostdlib -nostartfiles -static -Os -s \
-      -Wl,--build-id=none -Wl,--gc-sections -Wl,--strip-all \
-      server.S -o server \
+COPY server.S server.c page_html.h page.html .
+
+ARG TARGETPLATFORM
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+      gcc -nostdlib -nostartfiles -static -Os -s \
+          server.S -o server; \
+    else \
+      gcc -static -Os -s \
+          server.c -o server; \
+    fi \
  && upx --ultra-brute server
 
 FROM scratch
-LABEL org.opencontainers.image.authors="Nazar Malizderskyi"
 COPY --from=build /src/server /server
 CMD ["/server"]
