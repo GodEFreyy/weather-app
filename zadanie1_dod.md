@@ -40,4 +40,7 @@ Container started. Author: Nazar Malizderskyi Port:8080
 6. Analiza podatności (Trivy)
 trivy image --scanners vuln --severity CRITICAL,HIGH godefrey/weather:tiny3
 
+2025-05-12T18:51:40+02:00       INFO    Vulnerability scanning is enabled
+2025-05-12T18:51:40+02:00       INFO    Number of language-specific files       num=0
+
 Wynik: brak CRITICAL i HIGH (obraz bez krytycznych lub wysokich CVE).
